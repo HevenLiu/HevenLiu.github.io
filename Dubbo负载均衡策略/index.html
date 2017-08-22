@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Architects Daughter:300,300italic,400,400italic,700,700italic|Architects Daughter:300,300italic,400,400italic,700,700italic|Architects Daughter:300,300italic,400,400italic,700,700italic|Architects Daughter:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favorite.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Dubbo负载均衡策略(软负载)[TOC] 前言 在集群负载均衡时，Dubbo提供了多种均衡策略，缺省为random随机调用 源码有部分中文注释，若不想看源码，可直接跳至本文最后的Summary 负载均衡发生在哪里？    可以看出Load Balance发生在Invoker，即RPC(Remote Procedure Call Protocol远程过程调用)时  ps:这不是Dubbo的RPC调">
+<meta name="keywords" content="Dubbo">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dubbo负载均衡策略">
+<meta property="og:url" content="http://HevenLiu.github.io/Dubbo负载均衡策略/index.html">
+<meta property="og:site_name" content="Heven">
+<meta property="og:description" content="Dubbo负载均衡策略(软负载)[TOC] 前言 在集群负载均衡时，Dubbo提供了多种均衡策略，缺省为random随机调用 源码有部分中文注释，若不想看源码，可直接跳至本文最后的Summary 负载均衡发生在哪里？    可以看出Load Balance发生在Invoker，即RPC(Remote Procedure Call Protocol远程过程调用)时  ps:这不是Dubbo的RPC调">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://oux47r539.bkt.clouddn.com/source/images/Dubbo%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%28%E8%BD%AF%E8%B4%9F%E8%BD%BD%29/2.jpg">
+<meta property="og:updated_time" content="2017-08-22T13:40:10.147Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dubbo负载均衡策略">
+<meta name="twitter:description" content="Dubbo负载均衡策略(软负载)[TOC] 前言 在集群负载均衡时，Dubbo提供了多种均衡策略，缺省为random随机调用 源码有部分中文注释，若不想看源码，可直接跳至本文最后的Summary 负载均衡发生在哪里？    可以看出Load Balance发生在Invoker，即RPC(Remote Procedure Call Protocol远程过程调用)时  ps:这不是Dubbo的RPC调">
+<meta name="twitter:image" content="http://oux47r539.bkt.clouddn.com/source/images/Dubbo%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%28%E8%BD%AF%E8%B4%9F%E8%BD%BD%29/2.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://HevenLiu.github.io/Dubbo负载均衡策略/"/>
+
+
+
+
+
+  <title>Dubbo负载均衡策略 | Heven</title>
+  
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Heven</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Future For Freedom</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline">Dubbo负载均衡策略</h1>
+
+
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <h1 id="Dubbo负载均衡策略-软负载"><a href="#Dubbo负载均衡策略-软负载" class="headerlink" title="Dubbo负载均衡策略(软负载)"></a><strong>Dubbo负载均衡策略(软负载)</strong></h1><p>[TOC]</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li>在集群负载均衡时，Dubbo提供了多种均衡策略，缺省为random随机调用</li>
+<li>源码有部分中文注释，若不想看源码，可直接跳至本文最后的Summary</li>
+<li>负载均衡发生在哪里？</li>
+</ul>
+<p><img src="http://oux47r539.bkt.clouddn.com/source/images/Dubbo%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%28%E8%BD%AF%E8%B4%9F%E8%BD%BD%29/2.jpg" alt="DubboRPC过程"></p>
+<ul>
+<li><p>可以看出Load Balance发生在Invoker，即RPC(Remote Procedure Call Protocol远程过程调用)时</p>
+</li>
+<li><p><code>ps:这不是Dubbo的RPC调用过程</code>   </p>
+<p>​</p>
+</li>
+<li><p>Duboo支持4中负载均衡策略,详情如下</p>
+</li>
+</ul>
+<a id="more"></a>
+<h2 id="随机-Random-Load-Balance实现-Default"><a href="#随机-Random-Load-Balance实现-Default" class="headerlink" title="随机 Random Load Balance实现(Default)"></a>随机 Random Load Balance实现(Default)</h2><ul>
+<li>如名字，按权重设置随机概率</li>
+<li>在一个截面上碰撞的概率高，调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提供者权重。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RandomLoadBalance</span> <span class="keyword">extends</span> <span class="title">AbstractLoadBalance</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String NAME = <span class="string">"random"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Random random = <span class="keyword">new</span> Random();</div><div class="line"></div><div class="line">    <span class="keyword">protected</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">doSelect</span><span class="params">(List&lt;Invoker&lt;T&gt;&gt; invokers, URL url, Invocation invocation)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> length = invokers.size(); <span class="comment">// 总个数</span></div><div class="line">        <span class="keyword">int</span> totalWeight = <span class="number">0</span>; <span class="comment">// 总权重</span></div><div class="line">        <span class="keyword">boolean</span> sameWeight = <span class="keyword">true</span>; <span class="comment">// 权重是否都一样</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">            <span class="keyword">int</span> weight = getWeight(invokers.get(i), invocation);</div><div class="line">            totalWeight += weight; <span class="comment">// 累计总权重</span></div><div class="line">            <span class="keyword">if</span> (sameWeight &amp;&amp; i &gt; <span class="number">0</span></div><div class="line">                    &amp;&amp; weight != getWeight(invokers.get(i - <span class="number">1</span>), invocation)) &#123;</div><div class="line">                sameWeight = <span class="keyword">false</span>; <span class="comment">// 计算所有权重是否一样</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (totalWeight &gt; <span class="number">0</span> &amp;&amp; ! sameWeight) &#123;</div><div class="line">            <span class="comment">// 如果权重不相同且权重大于0则按总权重数随机</span></div><div class="line">            <span class="keyword">int</span> offset = random.nextInt(totalWeight);</div><div class="line">            <span class="comment">// 并确定随机值落在哪个片断上</span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">                offset -= getWeight(invokers.get(i), invocation);</div><div class="line">                <span class="keyword">if</span> (offset &lt; <span class="number">0</span>) &#123;</div><div class="line">                    <span class="keyword">return</span> invokers.get(i);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 如果权重相同或权重为0则均等随机</span></div><div class="line">        <span class="keyword">return</span> invokers.get(random.nextInt(length));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="轮循Round-Robin-Load-Balance"><a href="#轮循Round-Robin-Load-Balance" class="headerlink" title="轮循Round Robin Load Balance"></a>轮循Round Robin Load Balance</h2><ul>
+<li>每一次把来自用户的请求轮流分配给内部中的服务器。从1开始，一直到N(N是内部服务器的总个数[N&gt;=1])，然后重新开始循环。</li>
+<li>存在慢的提供者累积请求问题，比如：第二台机器很慢，但没挂，当请求调到第二台时就卡在那，久而久之，所有请求到第二台机器的请求都卡在第二台上，不影响其他线路。</li>
+<li>解决办法 :结合权重，把第二台机(性能低的)的权重设置低一点</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RoundRobinLoadBalance</span> <span class="keyword">extends</span> <span class="title">AbstractLoadBalance</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String NAME = <span class="string">"roundrobin"</span>;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> ConcurrentMap&lt;String, AtomicPositiveInteger&gt; sequences = <span class="keyword">new</span> ConcurrentHashMap&lt;String, AtomicPositiveInteger&gt;();</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">IntegerWrapper</span> </span>&#123; <span class="comment">//内部类</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">IntegerWrapper</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</div><div class="line">			<span class="keyword">this</span>.value = value;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">private</span> <span class="keyword">int</span> value;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">return</span> value;</div><div class="line">		&#125;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</div><div class="line">			<span class="keyword">this</span>.value = value;</div><div class="line">		&#125;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">decrement</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">this</span>.value--;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">protected</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">doSelect</span><span class="params">(List&lt;Invoker&lt;T&gt;&gt; invokers, URL url, Invocation invocation)</span></span>&#123;</div><div class="line">		String key = invokers.get(<span class="number">0</span>).getUrl().getServiceKey() + <span class="string">"."</span> + invocation.getMethodName();</div><div class="line">		<span class="keyword">int</span> length = invokers.size(); <span class="comment">// 总个数</span></div><div class="line">		<span class="keyword">int</span> maxWeight = <span class="number">0</span>; <span class="comment">// 最大权重</span></div><div class="line">		<span class="keyword">int</span> minWeight = Integer.MAX_VALUE; <span class="comment">// 最小权重</span></div><div class="line">		<span class="keyword">final</span> LinkedHashMap&lt;Invoker&lt;T&gt;, IntegerWrapper&gt; invokerToWeightMap = <span class="keyword">new</span> LinkedHashMap&lt;Invoker&lt;T&gt;, IntegerWrapper&gt;();</div><div class="line">		<span class="keyword">int</span> weightSum = <span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">			<span class="keyword">int</span> weight = getWeight(invokers.get(i), invocation);</div><div class="line">			maxWeight = Math.max(maxWeight, weight); <span class="comment">// 累计最大权重</span></div><div class="line">			minWeight = Math.min(minWeight, weight); <span class="comment">// 累计最小权重</span></div><div class="line">			<span class="keyword">if</span> (weight &gt; <span class="number">0</span>) &#123;</div><div class="line">				invokerToWeightMap.put(invokers.get(i), <span class="keyword">new</span> IntegerWrapper(weight));</div><div class="line">				weightSum += weight;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		AtomicPositiveInteger sequence = sequences.get(key);</div><div class="line">		<span class="keyword">if</span> (sequence == <span class="keyword">null</span>) &#123;</div><div class="line">			sequences.putIfAbsent(key, <span class="keyword">new</span> AtomicPositiveInteger());</div><div class="line">			sequence = sequences.get(key);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> currentSequence = sequence.getAndIncrement();</div><div class="line">		<span class="keyword">if</span> (maxWeight &gt; <span class="number">0</span> &amp;&amp; minWeight &lt; maxWeight) &#123; <span class="comment">// 权重不一样</span></div><div class="line">			<span class="keyword">int</span> mod = currentSequence % weightSum;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; maxWeight; i++) &#123;</div><div class="line">				<span class="keyword">for</span> (Map.Entry&lt;Invoker&lt;T&gt;, IntegerWrapper&gt; each : invokerToWeightMap.entrySet()) &#123;</div><div class="line">					<span class="keyword">final</span> Invoker&lt;T&gt; k = each.getKey();</div><div class="line">					<span class="keyword">final</span> IntegerWrapper v = each.getValue();</div><div class="line">					<span class="keyword">if</span> (mod == <span class="number">0</span> &amp;&amp; v.getValue() &gt; <span class="number">0</span>) &#123;</div><div class="line">						<span class="keyword">return</span> k;</div><div class="line">					&#125;</div><div class="line">					<span class="keyword">if</span> (v.getValue() &gt; <span class="number">0</span>) &#123;</div><div class="line">						v.decrement();</div><div class="line">						mod--;</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 取模轮循</span></div><div class="line">		<span class="keyword">return</span> invokers.get(currentSequence % length);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="最小活跃Least-Active-Load-Balance"><a href="#最小活跃Least-Active-Load-Balance" class="headerlink" title="最小活跃Least Active Load Balance"></a>最小活跃Least Active Load Balance</h2><ul>
+<li>最少活跃调用数，相同活跃数的随机，<code>活跃数</code> 指<code>调用前后计数差</code> 。</li>
+<li><p>使慢的提供者收到更少请求，因为越慢的提供者的<code>调用前后计数差</code> 会越大。</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LeastActiveLoadBalance</span> <span class="keyword">extends</span> <span class="title">AbstractLoadBalance</span> </span>&#123;</div><div class="line"></div><div class="line"> <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String NAME = <span class="string">"leastactive"</span>;</div><div class="line"> <span class="keyword">private</span> <span class="keyword">final</span> Random random = <span class="keyword">new</span> Random();</div><div class="line"> <span class="keyword">protected</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">doSelect</span><span class="params">(List&lt;Invoker&lt;T&gt;&gt; invokers, URL url, Invocation invocation)</span> </span>&#123;</div><div class="line">     <span class="keyword">int</span> length = invokers.size(); <span class="comment">// 总个数</span></div><div class="line">     <span class="keyword">int</span> leastActive = -<span class="number">1</span>; <span class="comment">// 最小的活跃数</span></div><div class="line">     <span class="keyword">int</span> leastCount = <span class="number">0</span>; <span class="comment">// 相同最小活跃数的个数</span></div><div class="line">     <span class="keyword">int</span>[] leastIndexs = <span class="keyword">new</span> <span class="keyword">int</span>[length]; <span class="comment">// 相同最小活跃数的下标</span></div><div class="line">     <span class="keyword">int</span> totalWeight = <span class="number">0</span>; <span class="comment">// 总权重</span></div><div class="line">     <span class="keyword">int</span> firstWeight = <span class="number">0</span>; <span class="comment">// 第一个权重，用于于计算是否相同</span></div><div class="line">     <span class="keyword">boolean</span> sameWeight = <span class="keyword">true</span>; <span class="comment">// 是否所有权重相同</span></div><div class="line">     <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">     	Invoker&lt;T&gt; invoker = invokers.get(i);</div><div class="line">         <span class="keyword">int</span> active = RpcStatus.getStatus(invoker.getUrl(), invocation.getMethodName()).getActive(); <span class="comment">// 活跃数</span></div><div class="line">         <span class="keyword">int</span> weight = invoker.getUrl().getMethodParameter(invocation.getMethodName(), Constants.WEIGHT_KEY, Constants.DEFAULT_WEIGHT); <span class="comment">// 权重</span></div><div class="line">         <span class="keyword">if</span> (leastActive == -<span class="number">1</span> || active &lt; leastActive) &#123; <span class="comment">// 发现更小的活跃数，重新开始</span></div><div class="line">             leastActive = active; <span class="comment">// 记录最小活跃数</span></div><div class="line">             leastCount = <span class="number">1</span>; <span class="comment">// 重新统计相同最小活跃数的个数</span></div><div class="line">             leastIndexs[<span class="number">0</span>] = i; <span class="comment">// 重新记录最小活跃数下标</span></div><div class="line">             totalWeight = weight; <span class="comment">// 重新累计总权重</span></div><div class="line">             firstWeight = weight; <span class="comment">// 记录第一个权重</span></div><div class="line">             sameWeight = <span class="keyword">true</span>; <span class="comment">// 还原权重相同标识</span></div><div class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span> (active == leastActive) &#123; <span class="comment">// 累计相同最小的活跃数</span></div><div class="line">             leastIndexs[leastCount ++] = i; <span class="comment">// 累计相同最小活跃数下标</span></div><div class="line">             totalWeight += weight; <span class="comment">// 累计总权重</span></div><div class="line">             <span class="comment">// 判断所有权重是否一样</span></div><div class="line">             <span class="keyword">if</span> (sameWeight &amp;&amp; i &gt; <span class="number">0</span> </div><div class="line">                     &amp;&amp; weight != firstWeight) &#123;</div><div class="line">                 sameWeight = <span class="keyword">false</span>;</div><div class="line">             &#125;</div><div class="line">         &#125;</div><div class="line">     &#125;</div><div class="line">     <span class="comment">// assert(leastCount &gt; 0)</span></div><div class="line">     <span class="keyword">if</span> (leastCount == <span class="number">1</span>) &#123;</div><div class="line">         <span class="comment">// 如果只有一个最小则直接返回</span></div><div class="line">         <span class="keyword">return</span> invokers.get(leastIndexs[<span class="number">0</span>]);</div><div class="line">     &#125;</div><div class="line">     <span class="keyword">if</span> (! sameWeight &amp;&amp; totalWeight &gt; <span class="number">0</span>) &#123;</div><div class="line">         <span class="comment">// 如果权重不相同且权重大于0则按总权重数随机</span></div><div class="line">         <span class="keyword">int</span> offsetWeight = random.nextInt(totalWeight);</div><div class="line">         <span class="comment">// 并确定随机值落在哪个片断上</span></div><div class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; leastCount; i++) &#123;</div><div class="line">             <span class="keyword">int</span> leastIndex = leastIndexs[i];</div><div class="line">             offsetWeight -= getWeight(invokers.get(leastIndex), invocation);</div><div class="line">             <span class="keyword">if</span> (offsetWeight &lt;= <span class="number">0</span>)</div><div class="line">                 <span class="keyword">return</span> invokers.get(leastIndex);</div><div class="line">         &#125;</div><div class="line">     &#125;</div><div class="line">     <span class="comment">// 如果权重相同或权重为0则均等随机</span></div><div class="line">     <span class="keyword">return</span> invokers.get(leastIndexs[random.nextInt(leastCount)]);</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="一致性哈希-Consistent-Hash-Load-Balance"><a href="#一致性哈希-Consistent-Hash-Load-Balance" class="headerlink" title="一致性哈希 Consistent Hash Load Balance"></a>一致性哈希 Consistent Hash Load Balance</h2><ul>
+<li>一致性Hash，相同参数的请求总是发到同一提供者。</li>
+<li>当某一台提供者挂时，原本发往该提供者的请求，基于虚拟节点，平摊到其它提供者，不会引起剧烈变动。</li>
+<li><p>算法参见：[click Here][<a href="http://en.wikipedia.org/wiki/Consistent_hashing" target="_blank" rel="external">http://en.wikipedia.org/wiki/Consistent_hashing</a>]</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConsistentHashLoadBalance</span> <span class="keyword">extends</span> <span class="title">AbstractLoadBalance</span> </span>&#123;</div><div class="line"></div><div class="line">      <span class="keyword">private</span> <span class="keyword">final</span> ConcurrentMap&lt;String, ConsistentHashSelector&lt;?&gt;&gt; selectors = <span class="keyword">new</span> ConcurrentHashMap&lt;String, ConsistentHashSelector&lt;?&gt;&gt;();</div><div class="line">  </div><div class="line">      <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">      <span class="meta">@Override</span></div><div class="line">      <span class="keyword">protected</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">doSelect</span><span class="params">(List&lt;Invoker&lt;T&gt;&gt; invokers, URL url, Invocation invocation)</span> </span>&#123;</div><div class="line"></div><div class="line">              String key = invokers.get(<span class="number">0</span>).getUrl().getServiceKey() + <span class="string">"."</span> + invocation.getMethodName();</div><div class="line">              <span class="comment">//根据现有集合生产hash值</span></div><div class="line">              <span class="keyword">int</span> identityHashCode = System.identityHashCode(invokers);</div><div class="line">              ConsistentHashSelector&lt;T&gt; selector = (ConsistentHashSelector&lt;T&gt;) selectors.get(key);</div><div class="line"></div><div class="line">              <span class="keyword">if</span> (selector == <span class="keyword">null</span> || selector.getIdentityHashCode() != identityHashCode) &#123;</div><div class="line">              <span class="comment">//根据集合和接口名字和hash值新建集合</span></div><div class="line">                  selectors.put(key, <span class="keyword">new</span> ConsistentHashSelector&lt;T&gt;(invokers, invocation.getMethodName(), identityHashCode));</div><div class="line">                  selector = (ConsistentHashSelector&lt;T&gt;) selectors.get(key);</div><div class="line">              &#125;</div><div class="line">              <span class="comment">//根据访问的接口进行MD5</span></div><div class="line">              <span class="keyword">return</span> selector.select(invocation);</div><div class="line">      &#125;</div><div class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ConsistentHashSelector</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">     	<span class="comment">//内部类代码省略</span></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="总结-Summary"><a href="#总结-Summary" class="headerlink" title="总结 Summary"></a>总结 Summary</h2><h3 id="Random-Load-Balance"><a href="#Random-Load-Balance" class="headerlink" title="Random Load Balance"></a>Random Load Balance</h3><ul>
+<li>计算总权重,判断所有权重是否一样,初始化sameWeight = true;如果其中所有权重都相同或权重为0:</li>
+<li>则均等随机<code>return invokers.get(random.nextInt(length))</code> ,此处length为invoker的个数.</li>
+<li>否则,即权重不同且总权重数大于0,执行以下操作:</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> offset = random.nextInt(totalWeight);</div><div class="line"><span class="comment">// 确定随机值落在哪个片断上</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">    offset -= getWeight(invokers.get(i), invocation);</div><div class="line">    <span class="keyword">if</span> (offset &lt; <span class="number">0</span>) &#123;</div><div class="line">     	<span class="keyword">return</span> invokers.get(i); <span class="comment">//</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Round-Robin-Load-Balance"><a href="#Round-Robin-Load-Balance" class="headerlink" title="Round Robin Load Balance"></a>Round Robin Load Balance</h3><ul>
+<li><p>每一次把来自用户的请求轮流分配给内部中的服务器。从1开始，一直到N(N是内部服务器的总个数[N&gt;=1])，然后重新开始循环。</p>
+</li>
+<li><p>存在慢的提供者累积请求问题，比如：第二台机器很慢，但没挂，当请求调到第二台时就卡在那，久而久之，所有请求到第二台机器的请求都卡在第二台上，不影响其他线路。</p>
+</li>
+<li>解决办法 :结合权重，把第二台机(性能低的)的权重设置低一点</li>
+</ul>
+<h3 id="Least-Active-Load-Balance"><a href="#Least-Active-Load-Balance" class="headerlink" title="Least Active Load Balance"></a>Least Active Load Balance</h3><ul>
+<li>相比于随机负载均衡，最小活跃多了几个属性</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> leastActive = -<span class="number">1</span>; <span class="comment">// 最小的活跃数</span></div><div class="line"><span class="keyword">int</span> leastCount = <span class="number">0</span>; <span class="comment">// 相同最小活跃数的个数</span></div><div class="line"><span class="keyword">int</span>[] leastIndexs = <span class="keyword">new</span> <span class="keyword">int</span>[length]; <span class="comment">// 相同最小活跃数的下标</span></div></pre></td></tr></table></figure>
+<ul>
+<li><p>一个长度为invokers.size()的for循环判断出最小活跃数的个数，以及最小活跃数的下标</p>
+</li>
+<li><p>断言least Count大于0<code>assert(leastCount &gt; 0)</code> ,则往下走(此处默认大于0)</p>
+</li>
+<li><p>如果只有一个最小,即<code>leastCount == 1</code> ,则直接返回<code>return invokers.get(leastIndexs[0]);</code>  </p>
+</li>
+<li><p>否则存在多个最小活跃数,此时判断每个最小活跃权重是否相同，如果不同且总权重大于0，则按总权重数随机        </p>
+<p><code>return invokers.get(leastIndex);</code> </p>
+</li>
+<li><p>否则均等随机(权重相同或权重为0) <code>return invokers.get(leastIndexs[random.nextInt(leastCount)]);</code> </p>
+</li>
+</ul>
+<h3 id="Consistent-Hash-Load-Balance"><a href="#Consistent-Hash-Load-Balance" class="headerlink" title="Consistent Hash Load Balance"></a>Consistent Hash Load Balance</h3><ul>
+<li>判断当前的请求参数之前是否已经被请求过</li>
+<li>如果没有请求过则创建一个新的请求</li>
+<li>否则直接return到之前请求过的对应provider</li>
+</ul>
+<p><code>ps:当某一台提供者挂时，原本发往该提供者的请求，基于虚拟节点，平摊到其它提供者，不会引起剧烈变动。</code> </p>
+
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="hypercomments_widget"></div>
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://oux47r539.bkt.clouddn.com/avatar.jpg"
+               alt="Heven" />
+          <p class="site-author-name" itemprop="name">Heven</p>
+           
+              <p class="site-description motion-element" itemprop="description">For Freedom</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Dubbo负载均衡策略-软负载"><span class="nav-number">1.</span> <span class="nav-text">Dubbo负载均衡策略(软负载)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#随机-Random-Load-Balance实现-Default"><span class="nav-number">1.2.</span> <span class="nav-text">随机 Random Load Balance实现(Default)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#轮循Round-Robin-Load-Balance"><span class="nav-number">1.3.</span> <span class="nav-text">轮循Round Robin Load Balance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最小活跃Least-Active-Load-Balance"><span class="nav-number">1.4.</span> <span class="nav-text">最小活跃Least Active Load Balance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一致性哈希-Consistent-Hash-Load-Balance"><span class="nav-number">1.5.</span> <span class="nav-text">一致性哈希 Consistent Hash Load Balance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结-Summary"><span class="nav-number">1.6.</span> <span class="nav-text">总结 Summary</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Random-Load-Balance"><span class="nav-number">1.6.1.</span> <span class="nav-text">Random Load Balance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Round-Robin-Load-Balance"><span class="nav-number">1.6.2.</span> <span class="nav-text">Round Robin Load Balance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Least-Active-Load-Balance"><span class="nav-number">1.6.3.</span> <span class="nav-text">Least Active Load Balance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consistent-Hash-Load-Balance"><span class="nav-number">1.6.4.</span> <span class="nav-text">Consistent Hash Load Balance</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+      
+    </div>
+    
+  </aside>
+
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Heven</span>
+
+  
+</div>
+
+
+  <!--
+  <div class="powered-by">
+    Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  </div>
+  -->
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">
+    Theme &mdash;
+    <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+      NexT.Muse
+    </a>
+  </div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/three.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+		<script type="text/javascript">
+		_hcwp = window._hcwp || [];
+
+		_hcwp.push({widget:"Bloggerstream", widget_id: 94660, selector:".hc-comment-count", label: "{\%COUNT%\}" });
+
+		
+		_hcwp.push({widget:"Stream", widget_id: 94660, xid: "Dubbo负载均衡策略/index.html"});
+		
+
+		(function() {
+		if("HC_LOAD_INIT" in window)return;
+		HC_LOAD_INIT = true;
+		var lang = (navigator.language || navigator.systemLanguage || navigator.userLanguage || "en").substr(0, 2).toLowerCase();
+		var hcc = document.createElement("script"); hcc.type = "text/javascript"; hcc.async = true;
+		hcc.src = ("https:" == document.location.protocol ? "https" : "http")+"://w.hypercomments.com/widget/hc/94660/"+lang+"/widget.js";
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(hcc, s.nextSibling);
+		})();
+		</script>
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("5u5Vb5VBdKSF98sO2cL3jkch-gzGzoHsz", "dPY1H9P0nAqwF8IsvLT2UWy1");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
