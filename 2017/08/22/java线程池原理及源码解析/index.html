@@ -103,7 +103,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="hexo," />
+  <meta name="keywords" content="JAVA,线程池," />
 
 
 
@@ -119,18 +119,20 @@
 
 
 
-<meta name="description" content="You can find everything about heven here MyLife Work Travel  You Are Travelling in Heven’s Word">
-<meta name="keywords" content="hexo">
+<meta name="description" content="Executor,ExecutorService和Executors间关系ps:正文之前先介绍这三者关系，请耐心看完  简述关系： Executor 是最上层接口，ExecutorService 继承Executor ，ThreadPoolExecutor实现ExecutorService ，Executors new的所有的线程池都来自ThreadPoolExecutor .">
+<meta name="keywords" content="JAVA,线程池">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo meet heven">
-<meta property="og:url" content="http://HevenLiu.github.io/2017/08/18/hexo-meet-heven/index.html">
+<meta property="og:title" content="java线程池原理及源码解析">
+<meta property="og:url" content="http://HevenLiu.github.io/2017/08/22/java线程池原理及源码解析/index.html">
 <meta property="og:site_name" content="Heven">
-<meta property="og:description" content="You can find everything about heven here MyLife Work Travel  You Are Travelling in Heven’s Word">
+<meta property="og:description" content="Executor,ExecutorService和Executors间关系ps:正文之前先介绍这三者关系，请耐心看完  简述关系： Executor 是最上层接口，ExecutorService 继承Executor ，ThreadPoolExecutor实现ExecutorService ，Executors new的所有的线程池都来自ThreadPoolExecutor .">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-08-19T05:14:13.222Z">
+<meta property="og:image" content="http://oux47r539.bkt.clouddn.com/source/images/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%861.png">
+<meta property="og:updated_time" content="2017-08-22T14:43:02.392Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hexo meet heven">
-<meta name="twitter:description" content="You can find everything about heven here MyLife Work Travel  You Are Travelling in Heven’s Word">
+<meta name="twitter:title" content="java线程池原理及源码解析">
+<meta name="twitter:description" content="Executor,ExecutorService和Executors间关系ps:正文之前先介绍这三者关系，请耐心看完  简述关系： Executor 是最上层接口，ExecutorService 继承Executor ，ThreadPoolExecutor实现ExecutorService ，Executors new的所有的线程池都来自ThreadPoolExecutor .">
+<meta name="twitter:image" content="http://oux47r539.bkt.clouddn.com/source/images/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%861.png">
 
 
 
@@ -159,13 +161,13 @@
 
 
 
-  <link rel="canonical" href="http://HevenLiu.github.io/2017/08/18/hexo-meet-heven/"/>
+  <link rel="canonical" href="http://HevenLiu.github.io/2017/08/22/java线程池原理及源码解析/"/>
 
 
 
 
 
-  <title>hexo meet heven | Heven</title>
+  <title>java线程池原理及源码解析 | Heven</title>
   
 
 
@@ -303,7 +305,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://HevenLiu.github.io/2017/08/18/hexo-meet-heven/">
+    <link itemprop="mainEntityOfPage" href="http://HevenLiu.github.io/2017/08/22/java线程池原理及源码解析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Heven">
@@ -320,7 +322,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">hexo meet heven</h1>
+          <h1 class="post-title" itemprop="name headline">java线程池原理及源码解析</h1>
         
 
         <div class="post-meta">
@@ -332,8 +334,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-18T00:31:39+08:00">
-                2017-08-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-22T22:40:38+08:00">
+                2017-08-22
               </time>
             
 
@@ -355,8 +357,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Heven/" itemprop="url" rel="index">
-                    <span itemprop="name">Heven</span>
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
                   </a>
                 </span>
 
@@ -374,8 +376,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/08/18/hexo-meet-heven/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count hc-comment-count" data-xid="2017/08/18/hexo-meet-heven/" itemprop="commentsCount"></span>
+                <a href="/2017/08/22/java线程池原理及源码解析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count hc-comment-count" data-xid="2017/08/22/java线程池原理及源码解析/" itemprop="commentsCount"></span>
                 </a>
               </span>
               <!--/noindex-->
@@ -384,7 +386,7 @@
 
           
           
-             <span id="/2017/08/18/hexo-meet-heven/" class="leancloud_visitors" data-flag-title="hexo meet heven">
+             <span id="/2017/08/22/java线程池原理及源码解析/" class="leancloud_visitors" data-flag-title="java线程池原理及源码解析">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -415,12 +417,16 @@
       
 
       
-        <h2 id="You-can-find-everything-about-heven-here"><a href="#You-can-find-everything-about-heven-here" class="headerlink" title="You can find everything about heven here"></a>You can find everything about heven here</h2><ul>
-<li>MyLife</li>
-<li>Work</li>
-<li>Travel</li>
+        <h2 id="Executor-ExecutorService和Executors间关系"><a href="#Executor-ExecutorService和Executors间关系" class="headerlink" title="Executor,ExecutorService和Executors间关系"></a>Executor,ExecutorService和Executors间关系</h2><p><code>ps:正文之前先介绍这三者关系，请耐心看完</code></p>
+<p><img src="http://oux47r539.bkt.clouddn.com/source/images/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%861.png" alt="Executor,ExecutorService,Executors间关系"></p>
+<h3 id="简述关系："><a href="#简述关系：" class="headerlink" title="简述关系："></a>简述关系：</h3><ul>
+<li><code>Executor</code> 是最上层接口，<code>ExecutorService</code> 继承<code>Executor</code> ，<code>ThreadPoolExecutor</code>实现<code>ExecutorService</code> ，<code>Executors</code> new的所有的线程池都来自<code>ThreadPoolExecutor</code> .</li>
 </ul>
-<p>You Are Travelling in Heven’s Word</p>
+<a id="more"></a>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//测试类</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">  	<span class="comment">//使用newFixedThreadPool线程池创建核心数为10的线程</span></div><div class="line">	<span class="keyword">static</span> ExecutorService executor = Executors.newFixedThreadPool(<span class="number">10</span>); </div><div class="line">  </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">      	<span class="comment">//以下为线程池中创建线程的4中方法，前提实现ExecutorService，若实现Executor，则只有execute方法</span></div><div class="line">      </div><div class="line">      	<span class="comment">//这里传入的是实现Runnabel()接口的类[这里为TaskRunnabel类]</span></div><div class="line">      	<span class="comment">//或者直接传入Runnable接口，new Runnable()&#123;public void run() &#123;&#125;&#125;</span></div><div class="line">        executor.execute(<span class="keyword">new</span> TaskRunnabel()); </div><div class="line">      </div><div class="line">      	<span class="comment">//由于这里实现的是ExecutorService，因此有submit方法。</span></div><div class="line">        executor.submit(<span class="keyword">new</span> TaskRunnabel(),String.class); <span class="comment">//带返回值的submit方法,返回传入的类型</span></div><div class="line">        executor.submit(<span class="keyword">new</span> TaskRunnabel()); <span class="comment">//参数为Runnable</span></div><div class="line">        executor.submit(<span class="keyword">new</span> TaskCallable()); <span class="comment">//参数为Callable，返回Future类型，Future是个接口</span></div><div class="line">      </div><div class="line">		executor.shutdown();</div><div class="line">	&#125;</div><div class="line">  </div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TaskRunnabel</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123; <span class="comment">//定义静态内部类类实现Runnable接口</span></div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">			System.out.println(Thread.currentThread().getName());</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">  </div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TaskCallable</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">String</span>&gt;</span>&#123; <span class="comment">//定义静态内部类类实现Callable接口</span></div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">			System.out.println(Thread.currentThread().getName());</div><div class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="简述上面的过程"><a href="#简述上面的过程" class="headerlink" title="简述上面的过程"></a>简述上面的过程</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;<span class="comment">//测试类</span></div><div class="line">	<span class="keyword">static</span> ExecutorService executor = Executors.newFixedThreadPool(<span class="number">10</span>); <span class="comment">//创建线程池</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">      	<span class="comment">//创建5个线程并获取资源执行</span></div><div class="line">      	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)&#123;</div><div class="line">        	executor.execute(<span class="keyword">new</span> TaskRunnabel()); </div><div class="line">        &#125;</div><div class="line">		executor.shutdown();<span class="comment">//关闭线程池</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Executors-&gt;newFixedThreadPool-&gt;ThreadPoolExecutor</p>
+<p>未完待续</p>
 
       
     </div>
@@ -438,7 +444,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag"># hexo</a>
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+            <a href="/tags/线程池/" rel="tag"># 线程池</a>
           
         </div>
       
@@ -451,15 +459,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/08/22/Dubbo负载均衡策略/" rel="next" title="Dubbo负载均衡策略">
+                <i class="fa fa-chevron-left"></i> Dubbo负载均衡策略
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/08/19/Configuration Of Hexo And NexT/" rel="prev" title="Configuration Of Hexo And NexT">
-                Configuration Of Hexo And NexT <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -597,7 +605,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#You-can-find-everything-about-heven-here"><span class="nav-number">1.</span> <span class="nav-text">You can find everything about heven here</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Executor-ExecutorService和Executors间关系"><span class="nav-number">1.</span> <span class="nav-text">Executor,ExecutorService和Executors间关系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简述关系："><span class="nav-number">1.1.</span> <span class="nav-text">简述关系：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简述上面的过程"><span class="nav-number">1.1.1.</span> <span class="nav-text">简述上面的过程</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -758,7 +766,7 @@
 		_hcwp.push({widget:"Bloggerstream", widget_id: 94660, selector:".hc-comment-count", label: "{\%COUNT%\}" });
 
 		
-		_hcwp.push({widget:"Stream", widget_id: 94660, xid: "2017/08/18/hexo-meet-heven/"});
+		_hcwp.push({widget:"Stream", widget_id: 94660, xid: "2017/08/22/java线程池原理及源码解析/"});
 		
 
 		(function() {
