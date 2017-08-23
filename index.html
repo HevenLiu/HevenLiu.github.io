@@ -370,18 +370,6 @@
 
           
             
-            <!--noindex-->
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/08/22/java线程池原理及源码解析/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count hc-comment-count" data-xid="2017/08/22/java线程池原理及源码解析/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-              <!--/noindex-->
-            
           
 
           
@@ -418,8 +406,17 @@
 
       
         
-          <h2 id="Executor-ExecutorService和Executors间关系"><a href="#Executor-ExecutorService和Executors间关系" class="headerlink" title="Executor,ExecutorService和Executors间关系"></a>Executor,ExecutorService和Executors间关系</h2><p><code>ps:正文之前先介绍这三者关系，请耐心看完</code></p>
-<p><img src="http://oux47r539.bkt.clouddn.com/source/images/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%861.png" alt="Executor,ExecutorService,Executors间关系"></p>
+          <h1 id="java多线程原理及源码解析"><a href="#java多线程原理及源码解析" class="headerlink" title="java多线程原理及源码解析"></a>java多线程原理及源码解析</h1><!-- [TOC] -->
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li>本文内容较多，请耐心阅读，如遇不懂内容请自行百度</li>
+</ul>
+<ul>
+<li><p>本文的代码分为博主自己写的代码(统称测试类)和JDK源代码(统称JDK源码)，注释在每个代码块开头</p>
+<p>​                                                                        –By Heven</p>
+</li>
+</ul>
+<hr>
+<h2 id="Executor-ExecutorService和Executors间关系"><a href="#Executor-ExecutorService和Executors间关系" class="headerlink" title="Executor,ExecutorService和Executors间关系"></a><strong>Executor,ExecutorService和Executors间关系</strong></h2><p><img src="http://oux47r539.bkt.clouddn.com/source/images/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%861.png" alt="Executor,ExecutorService,Executors间关系"></p>
 <h3 id="简述关系："><a href="#简述关系：" class="headerlink" title="简述关系："></a>简述关系：</h3><ul>
 <li><code>Executor</code> 是最上层接口，<code>ExecutorService</code> 继承<code>Executor</code> ，<code>ThreadPoolExecutor</code>实现<code>ExecutorService</code> ，<code>Executors</code> new的所有的线程池都来自<code>ThreadPoolExecutor</code> .</li>
 </ul>
@@ -542,18 +539,6 @@
           
 
           
-            
-            <!--noindex-->
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/08/22/Dubbo负载均衡策略/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count hc-comment-count" data-xid="2017/08/22/Dubbo负载均衡策略/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-              <!--/noindex-->
             
           
 
@@ -727,18 +712,6 @@
 
           
             
-            <!--noindex-->
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/08/19/Configuration Of Hexo And NexT/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count hc-comment-count" data-xid="2017/08/19/Configuration Of Hexo And NexT/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-              <!--/noindex-->
-            
           
 
           
@@ -909,18 +882,6 @@
           
 
           
-            
-            <!--noindex-->
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/08/18/hexo-meet-heven/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count hc-comment-count" data-xid="2017/08/18/hexo-meet-heven/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-              <!--/noindex-->
             
           
 
@@ -1124,11 +1085,12 @@
 </div>
 
 
+<!-- 以下已被注释 -->
   <!--
   <div class="powered-by">
     Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
   </div>
-  -->
+  
 
   <span class="post-meta-divider">|</span>
 
@@ -1137,6 +1099,10 @@
     <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
       NexT.Muse
     </a>
+  </div>
+  -->
+  <div class="powered-by">
+    如需转载请注明出处  
   </div>
 
 
@@ -1244,34 +1210,37 @@
 
 	
 
-		<script type="text/javascript">
-		_hcwp = window._hcwp || [];
 
-		_hcwp.push({widget:"Bloggerstream", widget_id: 94660, selector:".hc-comment-count", label: "{\%COUNT%\}" });
 
-		
 
-		(function() {
-		if("HC_LOAD_INIT" in window)return;
-		HC_LOAD_INIT = true;
-		var lang = (navigator.language || navigator.systemLanguage || navigator.userLanguage || "en").substr(0, 2).toLowerCase();
-		var hcc = document.createElement("script"); hcc.type = "text/javascript"; hcc.async = true;
-		hcc.src = ("https:" == document.location.protocol ? "https" : "http")+"://w.hypercomments.com/widget/hc/94660/"+lang+"/widget.js";
-		var s = document.getElementsByTagName("script")[0];
-		s.parentNode.insertBefore(hcc, s.nextSibling);
-		})();
-		</script>
 
-	
+  
+
+
+
+
+
+  
 
 
 
 
 
 
-
-
-
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.1.4/dist/Valine.min.js"></script>
+  <script type="text/javascript">
+    new Valine({
+        av: AV,
+        el: '#vcomments' ,
+        verify: true,
+        notify: true,
+        app_id: '5u5Vb5VBdKSF98sO2cL3jkch-gzGzoHsz',
+        app_key: 'dPY1H9P0nAqwF8IsvLT2UWy1',
+        placeholder: ''
+    });
+  </script>
 
 
 

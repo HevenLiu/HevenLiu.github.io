@@ -370,18 +370,6 @@
 
           
             
-            <!--noindex-->
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/08/22/Dubbo负载均衡策略/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count hc-comment-count" data-xid="2017/08/22/Dubbo负载均衡策略/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-              <!--/noindex-->
-            
           
 
           
@@ -566,7 +554,7 @@
           
   <div class="comments" id="comments">
     
-      <div id="hypercomments_widget"></div>
+      <div id="vcomments"></div>
     
   </div>
 
@@ -709,11 +697,12 @@
 </div>
 
 
+<!-- 以下已被注释 -->
   <!--
   <div class="powered-by">
     Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
   </div>
-  -->
+  
 
   <span class="post-meta-divider">|</span>
 
@@ -722,6 +711,10 @@
     <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
       NexT.Muse
     </a>
+  </div>
+  -->
+  <div class="powered-by">
+    如需转载请注明出处  
   </div>
 
 
@@ -829,36 +822,37 @@
 
 	
 
-		<script type="text/javascript">
-		_hcwp = window._hcwp || [];
 
-		_hcwp.push({widget:"Bloggerstream", widget_id: 94660, selector:".hc-comment-count", label: "{\%COUNT%\}" });
 
-		
-		_hcwp.push({widget:"Stream", widget_id: 94660, xid: "2017/08/22/Dubbo负载均衡策略/"});
-		
 
-		(function() {
-		if("HC_LOAD_INIT" in window)return;
-		HC_LOAD_INIT = true;
-		var lang = (navigator.language || navigator.systemLanguage || navigator.userLanguage || "en").substr(0, 2).toLowerCase();
-		var hcc = document.createElement("script"); hcc.type = "text/javascript"; hcc.async = true;
-		hcc.src = ("https:" == document.location.protocol ? "https" : "http")+"://w.hypercomments.com/widget/hc/94660/"+lang+"/widget.js";
-		var s = document.getElementsByTagName("script")[0];
-		s.parentNode.insertBefore(hcc, s.nextSibling);
-		})();
-		</script>
 
-	
+  
+
+
+
+
+
+  
 
 
 
 
 
 
-
-
-
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.1.4/dist/Valine.min.js"></script>
+  <script type="text/javascript">
+    new Valine({
+        av: AV,
+        el: '#vcomments' ,
+        verify: true,
+        notify: true,
+        app_id: '5u5Vb5VBdKSF98sO2cL3jkch-gzGzoHsz',
+        app_key: 'dPY1H9P0nAqwF8IsvLT2UWy1',
+        placeholder: ''
+    });
+  </script>
 
 
 
