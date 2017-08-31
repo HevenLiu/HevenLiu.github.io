@@ -103,7 +103,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="JAVA,数据结构," />
 
 
 
@@ -119,17 +119,21 @@
 
 
 
-<meta name="description" content="事务的ACID 原子性（Atomicity） 原子性是指事务是一个不可分割的工作单位，事务中的操作要么都发生，要么都不发生。    一致性（Consistency）(ABA问题) 事务必须使数据库从一个一致性状态(T1)变换到另外一个一致性状态(T2)。    隔离性（Isolation） 事务的隔离性是指一个事务的执行不能被其他事务干扰，即一个事务内部的操作及使用的数据对并发的其他事务是隔离的，">
+<meta name="description" content="优先级队列-PriorityQueue大根堆 小根堆">
+<meta name="keywords" content="JAVA,数据结构">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据库(范式、事务、索引)">
-<meta property="og:url" content="http://HevenLiu.github.io/2017/08/28/数据库-范式、事务、索引/index.html">
+<meta property="og:title" content="优先级队列-PriorityQueue">
+<meta property="og:url" content="http://HevenLiu.github.io/2017/08/31/优先级队列-PriorityQueue/index.html">
 <meta property="og:site_name" content="Heven">
-<meta property="og:description" content="事务的ACID 原子性（Atomicity） 原子性是指事务是一个不可分割的工作单位，事务中的操作要么都发生，要么都不发生。    一致性（Consistency）(ABA问题) 事务必须使数据库从一个一致性状态(T1)变换到另外一个一致性状态(T2)。    隔离性（Isolation） 事务的隔离性是指一个事务的执行不能被其他事务干扰，即一个事务内部的操作及使用的数据对并发的其他事务是隔离的，">
+<meta property="og:description" content="优先级队列-PriorityQueue大根堆 小根堆">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-08-28T15:19:08.180Z">
+<meta property="og:image" content="http://oux47r539.bkt.clouddn.com/source/images/2017/8/31/%E5%A4%A7%E6%A0%B9%E5%A0%86%28%E5%A4%A7%E9%A1%B6%E5%A0%86%29.png">
+<meta property="og:image" content="http://oux47r539.bkt.clouddn.com/source/images/2017/8/31/%E5%B0%8F%E6%A0%B9%E5%A0%86%28%E5%B0%8F%E9%A1%B6%E5%A0%86%29.png">
+<meta property="og:updated_time" content="2017-08-31T13:24:41.455Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据库(范式、事务、索引)">
-<meta name="twitter:description" content="事务的ACID 原子性（Atomicity） 原子性是指事务是一个不可分割的工作单位，事务中的操作要么都发生，要么都不发生。    一致性（Consistency）(ABA问题) 事务必须使数据库从一个一致性状态(T1)变换到另外一个一致性状态(T2)。    隔离性（Isolation） 事务的隔离性是指一个事务的执行不能被其他事务干扰，即一个事务内部的操作及使用的数据对并发的其他事务是隔离的，">
+<meta name="twitter:title" content="优先级队列-PriorityQueue">
+<meta name="twitter:description" content="优先级队列-PriorityQueue大根堆 小根堆">
+<meta name="twitter:image" content="http://oux47r539.bkt.clouddn.com/source/images/2017/8/31/%E5%A4%A7%E6%A0%B9%E5%A0%86%28%E5%A4%A7%E9%A1%B6%E5%A0%86%29.png">
 
 
 
@@ -158,13 +162,13 @@
 
 
 
-  <link rel="canonical" href="http://HevenLiu.github.io/2017/08/28/数据库-范式、事务、索引/"/>
+  <link rel="canonical" href="http://HevenLiu.github.io/2017/08/31/优先级队列-PriorityQueue/"/>
 
 
 
 
 
-  <title>数据库(范式、事务、索引) | Heven</title>
+  <title>优先级队列-PriorityQueue | Heven</title>
   
 
 
@@ -302,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://HevenLiu.github.io/2017/08/28/数据库-范式、事务、索引/">
+    <link itemprop="mainEntityOfPage" href="http://HevenLiu.github.io/2017/08/31/优先级队列-PriorityQueue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Heven">
@@ -319,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">数据库(范式、事务、索引)</h1>
+          <h1 class="post-title" itemprop="name headline">优先级队列-PriorityQueue</h1>
         
 
         <div class="post-meta">
@@ -331,8 +335,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-28T23:10:02+08:00">
-                2017-08-28
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-31T21:23:00+08:00">
+                2017-08-31
               </time>
             
 
@@ -342,6 +346,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/源码系列/" itemprop="url" rel="index">
+                    <span itemprop="name">源码系列</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -349,7 +375,7 @@
 
           
           
-             <span id="/2017/08/28/数据库-范式、事务、索引/" class="leancloud_visitors" data-flag-title="数据库(范式、事务、索引)">
+             <span id="/2017/08/31/优先级队列-PriorityQueue/" class="leancloud_visitors" data-flag-title="优先级队列-PriorityQueue">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -380,69 +406,15 @@
       
 
       
-        <h1 id="事务的ACID"><a href="#事务的ACID" class="headerlink" title="事务的ACID"></a><strong>事务的ACID</strong></h1><ul>
-<li><p>原子性（Atomicity）</p>
-<p>原子性是指事务是一个不可分割的工作单位，事务中的操作要么都发生，要么都不发生。</p>
-</li>
-</ul>
-<ul>
-<li><p>一致性（Consistency）(ABA问题)</p>
-<p>事务必须使数据库从一个一致性状态(T1)变换到另外一个一致性状态(T2)。</p>
-</li>
-</ul>
-<ul>
-<li><p>隔离性（Isolation）</p>
-<p>事务的隔离性是指一个事务的执行不能被其他事务干扰，即一个事务内部的操作及使用的数据对并发的其他事务是隔离的，并发执行的各个事务之间不能互相干扰。持久性（Durability）</p>
-</li>
-</ul>
-<ul>
-<li>持久性是指一个事务一旦被提交，它对数据库中数据的改变就是永久性的，接下来的其他操作和数据库故障不应该对其有任何影响。</li>
-</ul>
-<h1 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h1><p><strong>Read Uncommitted (意思就是可以读取事务还没提交但是修改了的内容)</strong></p>
-<ul>
-<li>在该隔离级别，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。读取未提交的数据，也被称之为脏读<code>Dirty Read</code>。</li>
-</ul>
+        <h1 id="优先级队列-PriorityQueue"><a href="#优先级队列-PriorityQueue" class="headerlink" title="优先级队列-PriorityQueue"></a>优先级队列-PriorityQueue</h1><h1 id="大根堆"><a href="#大根堆" class="headerlink" title="大根堆"></a>大根堆</h1><p><img src="http://oux47r539.bkt.clouddn.com/source/images/2017/8/31/%E5%A4%A7%E6%A0%B9%E5%A0%86%28%E5%A4%A7%E9%A1%B6%E5%A0%86%29.png" alt="大根堆"></p>
+<h1 id="小根堆"><a href="#小根堆" class="headerlink" title="小根堆"></a>小根堆</h1><p><img src="http://oux47r539.bkt.clouddn.com/source/images/2017/8/31/%E5%B0%8F%E6%A0%B9%E5%A0%86%28%E5%B0%8F%E9%A1%B6%E5%A0%86%29.png" alt="小根堆"></p>
 <a id="more"></a>
-<p><strong>Read Committed (意思就是只能读取事务提交了的内容)</strong></p>
-<ul>
-<li>这是大多数数据库系统的默认隔离级别（但不是<code>MySQL</code>默认的）。它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。这种隔离级别 也支持所谓的不可重复读<code>Nonrepeatable Read</code>，因为同一事务的其他实例在该实例处理其间可能会有新的commit，所以同一select可能返回不同结果。</li>
+<h1 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h1><ul>
+<li><code>PriorityQueue</code>的本身实现为小根堆，可根据不同需求转成大根堆。</li>
+<li>以下代码为大根堆和小根堆，只需修改flag即可：</li>
 </ul>
-<p><strong>Repeatable Read（可重读）</strong></p>
-<ul>
-<li>这是<code>MySQL</code>的默认事务隔离级别，它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行。不过理论上，这会导致另一个棘手的问题：幻读 <code>Phantom Read</code>。简单的说，幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的“幻影” 行。<code>InnoDB</code>和<code>Falcon</code>存储引擎通过多版本并发控制（<code>MVCC</code>，<code>Multiversion Concurrency Control</code>）机制解决了该问题。</li>
-</ul>
-<p><strong>Serializable（可串行化）</strong> </p>
-<ul>
-<li>这是最高的隔离级别，它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之，它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争。</li>
-</ul>
-<p><strong>这四种隔离级别采取不同的锁类型来实现，若读取的是同一个数据的话，就容易发生问题。例如：</strong></p>
-<ul>
-<li>脏读<code>Drity Read</code>：某个事务已更新一份数据，另一个事务在此时读取了同一份数据，由于某些原因，前一个<code>RollBack</code>了操作，则后一个事务所读取的数据就会是不正确的。</li>
-<li>不可重复读<code>Non-repeatable read</code>:在一个事务的两次查询之中数据不一致，这可能是两次查询过程中间插入了一个事务更新的原有的数据。</li>
-<li>幻读<code>Phantom Read</code>:在一个事务的两次查询中数据笔数不一致，例如有一个事务查询了几列(Row)数据，而另一个事务却在此时插入了新的几列数据，先前的事务在接下来的查询中，就会发现有几列数据是它先前所没有的。</li>
-</ul>
-<p><strong>不可重复读和脏读的区别是，脏读是读取前一事务未提交的脏数据，不可重复读是重新读取了前一事务已提交的数据。</strong></p>
-<p><strong>不可重复读和幻读的区别</strong></p>
-<ul>
-<li>从总的结果来看,   似乎两者都表现为两次读取的结果不一致. 但如果你从控制的角度来看,   两者的区别就比较大 ,  对于前者,   只需要锁住满足条件的记录.对于后者,   要锁住满足条件及其相近的记录.</li>
-</ul>
-<p><strong>片面理解:避免不可重复读需要锁行就行,避免幻影读则需要锁表.</strong></p>
-<h1 id="数据库范式-Normal-Form"><a href="#数据库范式-Normal-Form" class="headerlink" title="数据库范式(Normal Form)"></a>数据库范式(Normal Form)</h1><p>​    目前有迹可寻的共有8种范式，依次是：<strong>1NF，2NF，3NF，BCNF，4NF，5NF，DKNF，6NF</strong>。通常所用到的只是前三个范式.</p>
-<ul>
-<li><p>第一范(<code>1NF</code>)：强调的是列的原子性，即列不能够再分成其他几列。<br>考虑这样一个表：[联系人](<code>姓名</code>，<code>性别</code>，<code>电话</code>)<br>如果在实际场景中，一个联系人有家庭电话和公司电话，那么这种表结构设计就没有达到 <code>1NF</code>。要符合<code>1NF</code> 我们只需把列<code>电话</code>拆分，即：[联系人] (<code>姓名</code>，<code>性别</code>，<code>家庭电话</code>，<code>公司电话</code>)。<code>1NF</code>很好辨别，但是<code>2NF</code> 和 <code>3NF</code>就容易搞混淆。 </p>
-</li>
-<li><p>第二范(<code>2NF</code>)：首先是<code>1NF</code>，另外包含两部分内容，一是表必须有一个主键；二是没有包含在主键中的列必须完全依赖于主键，而不能只依赖于主键的一部分。<br>考虑一个订单明细表：<br>[OrderDetail] (<code>OrderID</code>，<code>ProductID</code>，<code>UnitPrice</code>，<code>Discount</code>，<code>Quantity</code>，<code>ProductName</code>)。 因为我们知道在一个订单中可以订购多种产品，所以单单一个 <code>OrderID</code> 是不足以成为主键的，主键应该是（<code>OrderID</code>，<code>ProductID</code>）。显而易见 <code>Discount</code>（折扣），<code>Quantity</code>（数量）完全依赖（取决）于主键（<code>OderID</code>，<code>ProductID</code>），而<code>UnitPrice</code>，<code>ProductName</code> 只依赖于<code>ProductID</code>。所以 <code>OrderDetail</code>表不符合 <code>2NF</code>。不符合<code>2NF</code>的设计容易产生冗余数据。 可以把【OrderDetail】表拆分为[OrderDetail] (<code>OrderID</code>，<code>ProductID</code>，<code>Discount</code>，<code>Quantity</code>)和[Product] (<code>ProductID</code>，<code>UnitPrice</code>，<code>ProductName</code>)来消除原订单表中<code>UnitPrice</code>，<code>ProductName</code>多次重复的情况。</p>
-</li>
-<li><p>第三范式(<code>3NF</code>)：首先是 <code>2NF</code>，另外非主键列必须直接依赖于主键，不能存在传递依赖。即不能存在：非主键列 A 依赖于非主键列 B，非主键列 B 依赖于主键的情况。 </p>
-<p>考虑一个订单表: <br>[Order] (<code>OrderID</code>，<code>OrderDate</code>，<code>CustomerID</code>，<code>CustomerName</code>，<code>CustomerAddr</code>，<code>CustomerCity</code>)主键是<code>OrderID</code>。 </p>
-<p>其中 <code>OrderDate</code>，<code>CustomerID</code>，<code>CustomerName</code>，<code>CustomerAddr</code>，<code>CustomerCity</code>等非主键列都完全依赖于主键<code>OrderID</code>，所以符合 <code>2NF</code>。不过问题是 <code>CustomerName</code>，<code>CustomerAddr</code>，<code>CustomerCity</code>直接依赖的是<code>CustomerID</code>（非主键列），而不是直接依赖于主键，它是通过传递才依赖于主键，所以不符合 <code>3NF</code>。 </p>
-<p>通过拆分[Order]为[Order] (<code>rderID</code>，<code>OrderDate</code>，<code>CustomerID</code>)和[Customer] (<code>CustomerID</code>，<code>CustomerName</code>，<code>CustomerAddr</code>，<code>CustomerCity</code>)从而达到 <code>3NF</code>。 </p>
-</li>
-<li><p>第二范式<code>2NF</code>和第三范式<code>3NF</code>的概念很容易混淆，区分它们的关键点在于，<code>2NF</code>：非主键列是否完全依赖于主键，还是依赖于主键的一部分；<code>3NF</code>：非主键列是直接依赖于主键，还是直接依赖于非主键列。</p>
-</li>
-</ul>
-<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><p>待续……</p>
-<p>参考文章: <a href="http://blog.csdn.net/famousdt/article/details/6921622" target="_blank" rel="external">数据库范式</a>;<a href="http://blog.csdn.net/bestone0213/article/details/47421523" target="_blank" rel="external">隔离级别</a>;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.heven.poj;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Comparator;</div><div class="line"><span class="keyword">import</span> java.util.PriorityQueue;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[] a = &#123;<span class="number">1</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">0</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">9</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">10</span>,<span class="number">12</span>,<span class="number">11</span>,<span class="number">13</span>,<span class="number">16</span>,<span class="number">15</span>&#125;;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">boolean</span> flag;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		flag = <span class="keyword">false</span>;<span class="comment">//true为小根堆，求最大前K个数。false为大根堆，求最小前K个数</span></div><div class="line">		PriorityQueue&lt;Integer&gt; pq = <span class="keyword">new</span> PriorityQueue&lt;Integer&gt;(<span class="keyword">new</span> Mycomparator(flag));</div><div class="line">		<span class="keyword">int</span> i=<span class="number">0</span> ,k = <span class="number">3</span>,len =a.length;</div><div class="line">		<span class="keyword">while</span>(i++&lt;len-<span class="number">1</span>)&#123;</div><div class="line">			<span class="keyword">if</span>(pq.size()&gt;=k)&#123;</div><div class="line">				<span class="keyword">if</span>(flag)&#123;</div><div class="line">					<span class="keyword">if</span>(pq.element()&lt;a[i])&#123;<span class="comment">//最大的前k个数</span></div><div class="line">						pq.poll();</div><div class="line">						pq.add(a[i]);</div><div class="line">					&#125;</div><div class="line">				&#125;<span class="keyword">else</span>&#123;</div><div class="line">					<span class="keyword">if</span>(pq.element()&gt;a[i])&#123;<span class="comment">//最小的前k个数</span></div><div class="line">						pq.poll();</div><div class="line">						pq.add(a[i]);</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;<span class="keyword">else</span></div><div class="line">				pq.add(a[i-<span class="number">1</span>]);</div><div class="line">		&#125;</div><div class="line">		System.out.println(pq);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mycomparator</span> <span class="keyword">implements</span> <span class="title">Comparator</span>&lt;<span class="title">Integer</span>&gt;</span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Mycomparator</span><span class="params">()</span></span>&#123;&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Mycomparator</span><span class="params">(<span class="keyword">boolean</span> flag)</span></span>&#123;</div><div class="line">		<span class="keyword">this</span>.flag = flag;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Integer x, Integer y)</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span>  flag?x.compareTo(y):y.compareTo(x);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="源码剖析"><a href="#源码剖析" class="headerlink" title="源码剖析"></a>源码剖析</h1><p>待续……</p>
 
       
     </div>
@@ -458,6 +430,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+        </div>
+      
 
       
       
@@ -467,8 +447,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/22/java线程池原理及源码解析/" rel="next" title="java线程池原理及源码解析">
-                <i class="fa fa-chevron-left"></i> java线程池原理及源码解析
+              <a href="/2017/08/28/数据库-范式、事务、索引/" rel="next" title="数据库(范式、事务、索引)">
+                <i class="fa fa-chevron-left"></i> 数据库(范式、事务、索引)
               </a>
             
           </div>
@@ -476,10 +456,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/08/31/优先级队列-PriorityQueue/" rel="prev" title="优先级队列-PriorityQueue">
-                优先级队列-PriorityQueue <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -617,7 +593,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#事务的ACID"><span class="nav-number">1.</span> <span class="nav-text">事务的ACID</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#事务隔离级别"><span class="nav-number">2.</span> <span class="nav-text">事务隔离级别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库范式-Normal-Form"><span class="nav-number">3.</span> <span class="nav-text">数据库范式(Normal Form)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#索引"><span class="nav-number">4.</span> <span class="nav-text">索引</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#优先级队列-PriorityQueue"><span class="nav-number">1.</span> <span class="nav-text">优先级队列-PriorityQueue</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#大根堆"><span class="nav-number">2.</span> <span class="nav-text">大根堆</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小根堆"><span class="nav-number">3.</span> <span class="nav-text">小根堆</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demo"><span class="nav-number">4.</span> <span class="nav-text">Demo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#源码剖析"><span class="nav-number">5.</span> <span class="nav-text">源码剖析</span></a></li></ol></div>
             
 
           </div>
